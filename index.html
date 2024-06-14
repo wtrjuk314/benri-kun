@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>便利くん</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="app">
+        <h1>便利くん</h1>
+        <div class="tabs">
+            <button class="tab-button" data-tab="tab1">ToDoリスト</button>
+            <button class="tab-button" data-tab="tab2">メモ帳</button>
+            <button class="tab-button" data-tab="tab3">タブ3</button>
+            <button class="tab-button" data-tab="tab4">タブ4</button>
+            <button class="tab-button" data-tab="tab5">タブ5</button>
+        </div>
+        <div class="tab-content" id="tab1">
+            <input type="text" id="new-task" placeholder="New task...">
+            <button id="add-task">Add</button>
+            <ul id="tasks"></ul>
+        </div>
+        <div class="tab-content" id="tab2">
+            <textarea id="notepad" placeholder="Type your notes here..."></textarea>
+        </div>
+        <div class="tab-content" id="tab3">タブ3の内容</div>
+        <div class="tab-content" id="tab4">タブ4の内容</div>
+        <div class="tab-content" id="tab5">タブ5の内容</div>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
