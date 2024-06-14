@@ -28,6 +28,26 @@
         <div class="tab-content" id="tab4">タブ4の内容</div>
         <div class="tab-content" id="tab5">タブ5の内容</div>
     </div>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js"></script>
+    <script>
+        // Firebaseの設定スニペットをここに貼り付けます
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+            databaseURL: "https://YOUR_PROJECT_ID.firebaseio.com",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_PROJECT_ID.appspot.com",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+
+        // Firebaseを初期化します
+        const app = firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        // JavaScriptコードはここに記述します
+    </script>
     <script src="app.js"></script>
 </body>
 </html>
