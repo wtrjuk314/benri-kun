@@ -14,11 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     tabs[0].classList.add('active');
     contents[0].classList.add('active');
-
-    // Firebaseの参照を設定
-    const tasksRef = firebase.database().ref('tasks');
-    const notepadRef = firebase.database().ref('notepad');
-
+    
     // ToDoリストのコード
     document.getElementById('add-task').addEventListener('click', addTaskFromInput);
     document.getElementById('new-task').addEventListener('keydown', function(event) {
@@ -37,45 +33,51 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function addTask(taskText) {
-        const newTaskRef = tasksRef.push();
-        newTaskRef.set({
-            text: taskText
-        });
-    }
-
-    tasksRef.on('child_added', function(snapshot) {
-        const task = snapshot.val();
         const taskList = document.getElementById('tasks');
         const taskItem = document.createElement('li');
-        taskItem.textContent = task.text;
+        taskItem.textContent = taskText;
 
         const deleteButton = document.createElement('button');
         deleteButton.textContent = 'Delete';
         deleteButton.addEventListener('click', function() {
-            tasksRef.child(snapshot.key).remove();
             taskList.removeChild(taskItem);
+            saveTasks();
         });
 
         taskItem.appendChild(deleteButton);
         taskList.appendChild(taskItem);
-    });
+        saveTasks();
+    }
 
-    tasksRef.on('child_removed', function(snapshot) {
-        const taskList = document.getElementById('tasks');
-        taskList.childNodes.forEach(taskItem => {
-            if (taskItem.firstChild.textContent === snapshot.val().text) {
-                taskList.removeChild(taskItem);
+    function saveTasks() {
+        const tasks = [];
+        document.querySelectorAll('#tasks li').forEach(taskItem => {
+            tasks.push(taskItem.firstChild.textContent);
+        });
+        db.collection("tasks").doc("taskList").set({tasks: tasks});
+    }
+
+    function loadTasks() {
+        db.collection("tasks").doc("taskList").get().then((doc) => {
+            if (doc.exists) {
+                const tasks = doc.data().tasks;
+                tasks.forEach(taskText => addTask(taskText));
             }
         });
-    });
+    }
+
+    window.addEventListener('load', loadTasks);
 
     // メモ帳のコード
     const notepad = document.getElementById('notepad');
-    notepadRef.on('value', function(snapshot) {
-        notepad.value = snapshot.val() || '';
+    
+    notepad.addEventListener('input', function() {
+        db.collection("notepad").doc("notes").set({content: notepad.value});
     });
 
-    notepad.addEventListener('input', function() {
-        notepadRef.set(notepad.value);
+    db.collection("notepad").doc("notes").get().then((doc) => {
+        if (doc.exists) {
+            notepad.value = doc.data().content;
+        }
     });
 });
